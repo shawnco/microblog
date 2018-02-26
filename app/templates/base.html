@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Shawn Learns Flask!</title>
+        <style type='text/css'>
+            #content{
+                background-color: black;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            Microblog: 
+            <a href='/index'>Index</a> 
+            <a href='/login'>Login</a>
+        </div>
+        <div id='content'>
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>
