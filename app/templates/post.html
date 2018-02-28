@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>{{content.title}}</h3>
-<div>{{content.body}}</div>
+
+<div class='panel'>
+    <div class='panel-heading'>{{content.title}}</div>
+    <div class='panel-body'>{{content.body}}</div>
+</div>
 
 {% endblock %}

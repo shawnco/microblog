@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>All the posts</h3>
-<ul>
-    {% for post in content %}
-        <li><a href='/post/{{post.id}}'>{{post.title}}</a></li>
-    {% endfor %}
-</ul>
+<div class='panel'>
+    <div class='panel-heading'>All Posts</div>
+    <div class='panel-body'>
+        <ul>
+            {% for post in content %}
+                <li><a href='/post/{{post.id}}'>{{post.title}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 {% endblock %}
