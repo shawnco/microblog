@@ -14,6 +14,11 @@ class NewpostForm(FlaskForm):
     text = StringField('Text', validators=[DataRequired()])
     submit = SubmitField('Submit Post')
 
+class EditpostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    text = StringField('Text', validators=[DataRequired()])
+    submit = SubmitField('Submit Post')
+
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])

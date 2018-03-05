@@ -1,10 +1,10 @@
 from app import app, db
 from flask import render_template, request, flash, redirect, url_for
-from app.forms import LoginForm, NewpostForm, RegistrationForm
+from app.forms import LoginForm, NewpostForm, RegistrationForm, EditpostForm
 from app.models import Post, User
 import sys
 import json
-from flask_login import current_user, login_user, login_required
+from flask_login import current_user, login_user, login_required, logout_user
 from werkzeug.urls import url_parse
 
 @app.route('/')
@@ -37,17 +37,41 @@ def logout():
 @app.route('/newpost', methods=['GET', 'POST'])
 @login_required
 def newpost():
-    print('request?',request.form,file=sys.stderr)
     content = ''
     form = NewpostForm()
     if form.validate_on_submit():
         content = 'Post added'
-        print('DANGIT!',request.form.get('title'),request.form.get('text'),file=sys.stderr)
-        # How to add to db?
         new_post = Post(title = request.form.get('title'), body = request.form.get('text'))
         db.session.add(new_post)
         db.session.commit()
     return render_template('newpost.html', content = content, form = form)
+
+@app.route('/edit/<id>', methods=['GET', 'POST'])
+@login_required
+def editpost(id):
+    if request.method == 'POST':
+        form = EditpostForm()
+        if form.validate_on_submit():
+            edit_post = Post.query.get(id)
+            edit_post.title = request.form.get('title')
+            edit_post.body = request.form.get('text')
+            db.session.commit()
+            return redirect('/posts')
+    else:
+        src = Post.query.get(id)
+        src.text = src.body
+        form = EditpostForm(obj=src)
+        return render_template('edit.html', form=form)
+
+
+
+@app.route('/delete/<id>')
+@login_required
+def delete(id):
+    delete_post = Post.query.get(id)
+    db.session.delete(delete_post)
+    db.session.commit()
+    return render_template('delete.html')
 
 @app.route('/posts')
 def posts():
